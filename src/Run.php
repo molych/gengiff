@@ -18,9 +18,9 @@ Options:
   --format <fmt>                Report format [default: stylish]
 DOC;
 
-function run() 
+function run()
 {
     $args = Docopt::handle(DOC);
 
     return $args;
-}    
+}
