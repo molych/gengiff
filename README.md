@@ -1,4 +1,4 @@
 <h1>gendiff</h1> 
 <br>
-<a href="https://github.com/molych/php-project-lvl2/actions"><img src="https://github.com/molych/php-project-lvl2/workflows/PHP-CI/badge.svg"></a>
+<a href="https://github.com/molych/php-project-lvl2/actions"><img src="https://github.com/molych/php-project-lvl2/workflows/PHP-CI/badge.svg" /></a>
 <a href="https://codeclimate.com/github/molych/php-project-lvl2"><img src="https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability" /></a><br>
