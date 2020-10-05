@@ -1,8 +1,10 @@
 <?php
 
-namespace Gendiff\Run;
+namespace GenDiff\Run;
 
 use Docopt;
+
+use function Gendiff\GenDiff\genDiff;
 
 const DOC = <<<DOC
 Generate diff
@@ -21,6 +23,5 @@ DOC;
 function run()
 {
     $args = Docopt::handle(DOC);
-
-    return $args;
+    echo genDiff($args['<firstFile>'], $args['<secondFile>']);
 }
