@@ -50,12 +50,12 @@ function genDiff($filePath1, $filePath2)
         }
         
         if ($item !== $prev[$key]) {
-            return "\t+ $key: $item\n\t- $key: $prev[$key]";
+            return "\t- $key: $prev[$key]\n\\t+ $key: $item";
         }
     }, array_keys($allJsonItems), $allJsonItems);
 
     $diffList = implode("\n", $diffList);
     $result = "{\n$diffList\n}\n";
-    
+
     return $result;
 }
