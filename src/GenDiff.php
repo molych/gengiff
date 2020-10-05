@@ -56,5 +56,6 @@ function genDiff($filePath1, $filePath2)
 
     $diffList = implode("\n", $diffList);
     $result = "{\n$diffList\n}\n";
+    
     return $result;
 }
