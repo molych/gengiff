@@ -55,5 +55,6 @@ function genDiff($filePath1, $filePath2)
     }, array_keys($allJsonItems), $allJsonItems);
 
     $diffList = implode("\n", $diffList);
-    return "{\n$diffList\n}\n";
+    $result = "{\n$diffList\n}\n";
+    return $result;
 }
