@@ -23,5 +23,5 @@ DOC;
 function run()
 {
     $args = Docopt::handle(DOC);
-    echo genDiff($args['<firstFile>'], $args['<secondFile>']);
+    print_r(genDiff($args['<firstFile>'], $args['<secondFile>']));
 }

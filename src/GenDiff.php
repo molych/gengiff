@@ -3,6 +3,7 @@
 namespace GenDiff\GenDiff;
 
 use function GenDiff\Parsers\parser;
+use function GenDiff\BuildAst\buildAst;
 
 function getAbsolutePath($filePath)
 {
@@ -21,41 +22,13 @@ function genDiff($filePath1, $filePath2)
     $extensionPrev = pathinfo($filePath1, PATHINFO_EXTENSION);
     $extensionNext = pathinfo($filePath2, PATHINFO_EXTENSION);
 
-    $prev = file_get_contents($filePath1);
-    $next = file_get_contents($filePath2);
+    $before = file_get_contents($filePath1);
+    $after = file_get_contents($filePath2);
 
+    $before = parser($before, $extensionPrev);
+    $after = parser($after, $extensionNext);
 
-    $prev = parser($prev, $extensionPrev);
-    $next = parser($next, $extensionNext);
+    $astTree = buildAst($before, $after);
 
-    $allJsonItems = array_merge($prev, $next);
-    ksort($allJsonItems);
-
-    $diffList = array_map(function ($key, $item) use ($prev, $next) {
-
-        if (is_bool($item)) {
-            $item =  var_export($item, true);
-        }
-
-        if (!isset($prev[$key])) {
-            return "\t+ $key: $item";
-        }
-        
-        if (!isset($next[$key])) {
-            return "\t- $key: $item";
-        }
-        
-        if ($item === $prev[$key]) {
-            return "\t  $key: $item";
-        }
-        
-        if ($item !== $prev[$key]) {
-            return "\t- $key: $prev[$key]\n\t+ $key: $item";
-        }
-    }, array_keys($allJsonItems), $allJsonItems);
-
-    $diffList = implode("\n", $diffList);
-    $result = "{\n$diffList\n}\n";
-
-    return $result;
+    return $astTree;
 }
