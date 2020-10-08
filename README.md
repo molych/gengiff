@@ -6,7 +6,8 @@
 
 <a href="https://asciinema.org/a/363626"><img src="https://asciinema.org/a/363626.png" width="320"/></a>
 
-`Generate diff
+```
+Generate diff
 
 Usage:
   gendiff (-h|--help)
@@ -16,5 +17,6 @@ Usage:
 Options:
   -h --help                     Show this screen
   -v --version                  Show version
-  --format <fmt>                Report format [default: stylish]`
+  --format <fmt>                Report format [default: stylish]
+  ```
 
