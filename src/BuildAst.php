@@ -5,7 +5,6 @@ namespace GenDiff\BuildAst;
 use function Funct\Collection\union;
 use function GenDiff\FunctionsTrees\createNode;
 
-
 function buildAst($before, $after)
 {
 
