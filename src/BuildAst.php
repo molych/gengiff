@@ -3,17 +3,7 @@
 namespace GenDiff\BuildAst;
 
 use function Funct\Collection\union;
-
-function createNode($name, $type, $oldValue, $newValue, $children)
-{
-    return [
-        'name' => $name,
-        'type' => $type,
-        'oldValue' => $oldValue,
-        'newValue' => $newValue,
-        'children' => $children
-    ];
-}
+use function GenDiff\FunctionsTrees\createNode;
 
 
 function buildAst($before, $after)

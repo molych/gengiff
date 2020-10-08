@@ -21,7 +21,8 @@
             "src/GenDiff.php",
             "src/Parsers.php",
             "src/BuildAst.php",
-            "src/formatters/Pretty.php"
+            "src/formatters/Pretty.php",
+            "src/FunctionsTrees.php/"
         ]
     },
     "scripts": {

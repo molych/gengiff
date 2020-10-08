@@ -2,32 +2,11 @@
 
 namespace GenDiff\Formatters\Pretty;
 
-
-function getName($node)
-{
-    return $node['name'];
-}
-
-function getOldValue($node)
-{
-    return $node['oldValue'];
-}
-
-function getNewValue($node)
-{
-    return $node['newValue'];
-}
-
-function getNodeType($node)
-{
-    return $node['type'];
-}
-
-function getChildren($node)
-{
-    return $node['children'];
-}
-
+use function GenDiff\FunctionsTrees\getName;
+use function GenDiff\FunctionsTrees\getNodeType;
+use function GenDiff\FunctionsTrees\getOldValue;
+use function GenDiff\FunctionsTrees\getNewValue;
+use function GenDiff\FunctionsTrees\getChildren;
 
 function space(int $deep) : string
 {
@@ -95,6 +74,8 @@ function treeToPretty($tree, int $deep = 0) {
               $deep += 1;
               $children = treeToPretty($children,$deep);
                 return "$currentSpace  $name:{\n$children\n$currentSpace  }";
+          default:
+                throw new \Exception("unknown type $type");
       }
       
   }, $tree);
