@@ -36,9 +36,7 @@ function nodeToPretty($node, $deep)
                 } else {
                     return "$currentSpace     $name:$oldValue$currentSpace";
                 }
-            },
-            $keys
-        );
+            },$keys);
         $result = implode("\n", $editNode);
         return "{\n{$result}\n$currentSpace  }";
     }
