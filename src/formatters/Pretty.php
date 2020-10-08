@@ -13,19 +13,21 @@ function space(int $deep): string
     return str_repeat(" ", $deep * 4);
 }
 
-
-function nodeToPretty($value, $deep)
+function nodeToPretty($node, $deep)
 {
+    if (is_bool($node)) {
+        return var_export($node, true);
+    }
 
     $space = space($deep);
     $currentSpace = "  $space";
-    if (is_array($value)) {
-        $keys = array_keys($value);
+    if (is_array($node)) {
+        $keys = array_keys($node);
         $editNode = array_map(
-            function ($key) use ($value, $currentSpace, $deep) {
-                $type = gettype($value[$key]);
+            function ($key) use ($node, $currentSpace, $deep) {
+                $type = gettype($node[$key]);
                 $name = $key;
-                $oldValue = $value[$key];
+                $oldValue = $node[$key];
               
                 if ($type === 'array') {
                     (int) $deep += 1;
@@ -40,8 +42,7 @@ function nodeToPretty($value, $deep)
         $result = implode("\n", $editNode);
         return "{\n{$result}\n$currentSpace  }";
     }
-
-    return $value;
+    return $node;
 }
 
 
@@ -54,21 +55,21 @@ function treeToPretty($tree, int $deep = 0)
         $name = getName($node);
         $oldValue = getOldValue($node);
         $newValue = getNewValue($node);
+
+        $oldValue = nodeToPretty($oldValue, $deep);
+        $newValue = nodeToPretty($newValue, $deep);
+
         $type = getNodeType($node);
         $children = getChildren($node);
 
         switch ($type) {
             case 'added':
-                $oldValue = nodeToPretty($oldValue, $deep);
                 return "$currentSpace+ $name:$oldValue";
             case 'deleted':
-                $oldValue = nodeToPretty($oldValue, $deep);
                 return "$currentSpace- $name:$oldValue";
-            case 'unchange':
+            case 'unchanged':
                 return "$currentSpace  $name:$oldValue";
-            case 'change':
-                $oldValue = nodeToPretty($oldValue, $deep);
-                $newValue = nodeToPretty($newValue, $deep);
+            case 'changed':
                 return "$currentSpace+ $name:$newValue\n$currentSpace- $name:$oldValue";
             case 'nested':
                 $deep += 1;
@@ -81,4 +82,11 @@ function treeToPretty($tree, int $deep = 0)
 
     $result = implode("\n", $diffList);
     return $result;
+}
+
+
+function renderPretty($tree)
+{
+    $tree =  treeToPretty($tree);
+    return  "{\n{$tree}\n}";
 }

@@ -17,11 +17,13 @@ Usage:
 Options:
   -h --help                     Show this screen
   -v --version                  Show version
-  --format <fmt>                Report format [default: stylish]
+  --format <fmt>                Report format [default: pretty]
 DOC;
 
 function run()
 {
     $args = Docopt::handle(DOC);
-    print_r(genDiff($args['<firstFile>'], $args['<secondFile>']));
+    $format = $args->args['--format'];
+    $genDiffList = genDiff($args['<firstFile>'], $args['<secondFile>'], $format);
+    print_r("$genDiffList\n");
 }

@@ -22,7 +22,8 @@
             "src/Parsers.php",
             "src/BuildAst.php",
             "src/formatters/Pretty.php",
-            "src/FunctionsTrees.php/"
+            "src/FunctionsTrees.php/",
+            "src/formatters/Plain.php"
         ]
     },
     "scripts": {

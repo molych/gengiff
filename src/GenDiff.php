@@ -4,7 +4,8 @@ namespace GenDiff\GenDiff;
 
 use function GenDiff\Parsers\parser;
 use function GenDiff\BuildAst\buildAst;
-use function GenDiff\Formatters\Pretty\treeToPretty;
+use function GenDiff\Formatters\Pretty\renderPretty;
+use function GenDiff\Formatters\Plain\renderPlain;
 
 function getAbsolutePath($filePath)
 {
@@ -15,7 +16,7 @@ function getAbsolutePath($filePath)
     }
 }
 
-function genDiff($filePath1, $filePath2)
+function genDiff($filePath1, $filePath2, $format = 'pretty')
 {
     $filePath1 = getAbsolutePath($filePath1);
     $filePath2 = getAbsolutePath($filePath2);
@@ -30,8 +31,13 @@ function genDiff($filePath1, $filePath2)
     $after = parser($after, $extensionNext);
 
     $astTree = buildAst($before, $after);
-    $astTree = treeToPretty($astTree);
 
-
-    return $astTree;
+    switch ($format) {
+        case 'pretty':
+            return $astTree = renderPretty($astTree);
+        case 'plain':
+            return $astTree = renderPlain($astTree);
+        default:
+            throw new \ErrorException("Unknown fotmat $format");
+    }
 }
