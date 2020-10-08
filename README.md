@@ -1,7 +1,7 @@
 # gendiff
 
 
-Our program compares two configuration files. The file comparison result can be displayed in different formats: for example, plain ("flat") or json ("JSON format")
+Program compares two configuration files. The file comparison result can be displayed in different formats: for example, plain ("flat") or json ("JSON format")
 ```
 Generate diff
 
@@ -28,4 +28,5 @@ composer global require
 
 
 Comparison of flat files (JSON)
+
 <a href="https://asciinema.org/a/363626"><img src="https://asciinema.org/a/363626.png" width="320"/></a>
