@@ -4,7 +4,7 @@ namespace GenDiff\GenDiff;
 
 use function GenDiff\Parsers\parser;
 use function GenDiff\BuildAst\buildAst;
-use function GenDiff\Formatters\Pretty\toPretty;
+use function GenDiff\Formatters\Pretty\treeToPretty;
 
 function getAbsolutePath($filePath)
 {
@@ -30,7 +30,7 @@ function genDiff($filePath1, $filePath2)
     $after = parser($after, $extensionNext);
 
     $astTree = buildAst($before, $after);
-    $astTree = toPretty($astTree);
+    $astTree = treeToPretty($astTree);
 
 
     return $astTree;
