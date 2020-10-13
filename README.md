@@ -29,4 +29,8 @@ composer global require
 
 Comparison of flat files (JSON)
 
-<a href="https://asciinema.org/a/363626"><img src="https://asciinema.org/a/363626.png" width="320"/></a>
+<a href="https://asciinema.org/a/363626"><img src="https://asciinema.org/a/363626.png" width="320"/></a><br>
+
+Comparison of deep files (Pretty format)
+
+<a href="https://asciinema.org/a/365089"><img src="https://asciinema.org/a/365089.png" width="320"/></a><br>
