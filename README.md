@@ -37,4 +37,4 @@ Comparison of deep files (Pretty format)
 
 Comparison of deep files (Plain format)
 
-<a href="https://asciinema.org/a/365092><img src="https://asciinema.org/a/365092.png" width="320"/></a><br>
+<a href="https://asciinema.org/a/365092"><img src="https://asciinema.org/a/365092.png" width="320"/></a><br>
