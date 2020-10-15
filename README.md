@@ -23,7 +23,7 @@ Options:
 ### install
 
 ```
-composer global require
+composer global require sasha/php-project-lvl2
 ```
 
 
