@@ -13,5 +13,5 @@ if (file_exists($autoloadPath1)) {
 
 use function GenDiff\Run\run;
 
-run();
+print_r(run());
 ?>

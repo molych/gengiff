@@ -1,3 +1,4 @@
 /vendor/
 w1.json
 w2.json
+.phpunit.result.cache

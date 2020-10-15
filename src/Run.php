@@ -25,5 +25,5 @@ function run()
     $args = Docopt::handle(DOC);
     $format = $args->args['--format'];
     $genDiffList = genDiff($args['<firstFile>'], $args['<secondFile>'], $format);
-    print_r("$genDiffList\n");
+    return $genDiffList;
 }

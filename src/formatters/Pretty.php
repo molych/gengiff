@@ -8,30 +8,30 @@ use function GenDiff\FunctionsTrees\getOldValue;
 use function GenDiff\FunctionsTrees\getNewValue;
 use function GenDiff\FunctionsTrees\getChildren;
 
-function space(int $deep): string
+function space(int $depth): string
 {
-    return str_repeat(" ", $deep * 4);
+    return str_repeat(" ", $depth * 4);
 }
 
-function nodeToPretty($node, $deep)
+function nodeToPretty($node, $depth)
 {
     if (is_bool($node)) {
         return var_export($node, true);
     }
 
-    $space = space($deep);
+    $space = space($depth);
     $currentSpace = "  $space";
     if (is_array($node)) {
         $keys = array_keys($node);
         $editNode = array_map(
-            function ($key) use ($node, $currentSpace, $deep) {
+            function ($key) use ($node, $currentSpace, $depth) {
                 $type = gettype($node[$key]);
                 $name = $key;
                 $oldValue = $node[$key];
               
                 if ($type === 'array') {
-                    (int) $deep += 1;
-                    $value = nodeToPretty($oldValue, $deep);
+                    (int) $depth += 1;
+                    $value = nodeToPretty($oldValue, $depth);
                     return "$currentSpace     $name:$value$currentSpace";
                 } else {
                     return "$currentSpace     $name:$oldValue$currentSpace";
@@ -46,19 +46,15 @@ function nodeToPretty($node, $deep)
 }
 
 
-function treeToPretty($tree, int $deep = 0)
+function treeToPretty($tree, int $depth = 0)
 {
 
-    $space = space($deep);
+    $space = space($depth);
     $currentSpace = "  $space";
-    $diffList = array_map(function ($node) use ($currentSpace, $deep) {
+    $diffList = array_map(function ($node) use ($currentSpace, $depth) {
         $name = getName($node);
-        $oldValue = getOldValue($node);
-        $newValue = getNewValue($node);
-
-        $oldValue = nodeToPretty($oldValue, $deep);
-        $newValue = nodeToPretty($newValue, $deep);
-
+        $oldValue = nodeToPretty(getOldValue($node), $depth);
+        $newValue = nodeToPretty(getNewValue($node), $depth);
         $type = getNodeType($node);
         $children = getChildren($node);
 
@@ -72,8 +68,8 @@ function treeToPretty($tree, int $deep = 0)
             case 'changed':
                 return "$currentSpace+ $name:$newValue\n$currentSpace- $name:$oldValue";
             case 'nested':
-                $deep += 1;
-                $children = treeToPretty($children, $deep);
+                $depth += 1;
+                $children = treeToPretty($children, $depth);
                 return "$currentSpace  $name:{\n$children\n$currentSpace  }";
             default:
                 throw new \Exception("unknown type $type");

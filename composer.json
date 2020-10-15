@@ -23,7 +23,8 @@
             "src/BuildAst.php",
             "src/formatters/Pretty.php",
             "src/FunctionsTrees.php/",
-            "src/formatters/Plain.php"
+            "src/formatters/Plain.php",
+            "src/formatters/Json.php"
         ]
     },
     "scripts": {
