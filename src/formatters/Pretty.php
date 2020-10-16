@@ -32,9 +32,9 @@ function nodeToPretty($node, $depth)
                 if ($type === 'array') {
                     (int) $depth += 1;
                     $value = nodeToPretty($oldValue, $depth);
-                    return "$currentSpace     $name:$value$currentSpace";
+                    return "$currentSpace     $name: $value$currentSpace";
                 } else {
-                    return "$currentSpace     $name:$oldValue$currentSpace";
+                    return "$currentSpace     $name: $oldValue$currentSpace";
                 }
             },
             $keys
@@ -60,17 +60,17 @@ function treeToPretty($tree, int $depth = 0)
 
         switch ($type) {
             case 'added':
-                return "$currentSpace+ $name:$oldValue";
+                return "$currentSpace+ $name: $oldValue";
             case 'deleted':
-                return "$currentSpace- $name:$oldValue";
+                return "$currentSpace- $name: $oldValue";
             case 'unchanged':
-                return "$currentSpace  $name:$oldValue";
+                return "$currentSpace  $name: $oldValue";
             case 'changed':
-                return "$currentSpace+ $name:$newValue\n$currentSpace- $name:$oldValue";
+                return "$currentSpace+ $name: $newValue\n$currentSpace- $name: $oldValue";
             case 'nested':
                 $depth += 1;
                 $children = treeToPretty($children, $depth);
-                return "$currentSpace  $name:{\n$children\n$currentSpace  }";
+                return "$currentSpace  $name: {\n$children\n$currentSpace  }";
             default:
                 throw new \Exception("unknown type $type");
         }

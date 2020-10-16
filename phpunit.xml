@@ -10,8 +10,10 @@
 >
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
-      
             <directory suffix=".php">./src</directory>
         </whitelist>
     </filter>
+    <testsuite name="GenDiff">
+      <directory suffix="Test.php">./tests</directory>
+    </testsuite>
 </phpunit>
