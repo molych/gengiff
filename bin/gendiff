@@ -11,8 +11,7 @@ if (file_exists($autoloadPath1)) {
     require_once $autoloadPath2;
 }
 
-use Docopt;
-use function Gendiff\GenDiff\genDiff;
+use function GenDiff\GenDiff\genDiff;
 
 const DOC = <<<DOC
 Generate diff
@@ -28,12 +27,11 @@ Options:
   --format <fmt>                Report format [default: pretty]
 DOC;
 
-function run()
-{
-    $args = Docopt::handle(DOC);
-    $format = $args->args['--format'];
-    $DiffList = genDiff($args['<firstFile>'], $args['<secondFile>'], $format);
-    return print_r($DiffList);
-}
+
+  $args = Docopt::handle(DOC);
+  $format = $args->args['--format'];
+  $diffList = genDiff($args['<firstFile>'], $args['<secondFile>'], $format);
+  print_r($diffList);
+
 
 ?>

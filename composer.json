@@ -17,7 +17,6 @@
           "Php\\Package\\Tests\\": "tests"
         },
         "files": [
-            "bin/gendiff",
             "src/GenDiff.php",
             "src/Parsers.php",
             "src/BuildAst.php",
