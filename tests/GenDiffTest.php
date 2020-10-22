@@ -31,6 +31,9 @@ class GenDiffTest extends TestCase
             "yaml-pretty" => ['yaml', 'pretty'],
             "yaml-plain" => ['yaml', 'plain'],
             "yaml-json" => ['yaml', 'json'],
+            "yml-pretty" => ['yml', 'pretty'],
+            "yml-plain" => ['yml', 'plain'],
+            "yml-json" => ['yml', 'json'],
         ];
     }
 }

@@ -28,7 +28,7 @@ Options:
 DOC;
 
 
-  $args = Docopt::handle(DOC);
+  $args = Docopt::handle(DOC, ['version' => 'v0.3']);
   $format = $args->args['--format'];
   $diffList = genDiff($args['<firstFile>'], $args['<secondFile>'], $format);
   print_r($diffList);
