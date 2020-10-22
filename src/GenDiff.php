@@ -4,43 +4,33 @@ namespace GenDiff\GenDiff;
 
 use function GenDiff\Parsers\parser;
 use function GenDiff\BuildAst\buildAst;
-use function GenDiff\Formatters\Pretty\renderPretty;
-use function GenDiff\Formatters\Plain\renderPlain;
-use function GenDiff\Formatters\Json\renderJson;
+use function Gendiff\Formatter\formatter;
 
-function getAbsolutePath($filePath)
+
+function getData ($file)
 {
-    if (file_exists(getcwd() . "/file")) {
-        return getcwd() . "/$filePath";
-    } else {
-        return $filePath;
+    if (!file_exists($file)) {
+        throw new \Exception("$file does not exist");
     }
+
+    $content = file_get_contents($file);
+    $extension = pathinfo($file, PATHINFO_EXTENSION);
+    
+    return [$extension, $content];
 }
 
 function genDiff($filePath1, $filePath2, $format = 'pretty')
 {
-    $filePath1 = getAbsolutePath($filePath1);
-    $filePath2 = getAbsolutePath($filePath2);
+   
+    [$extensionFileFirst, $contentFileFirst] = getData ($filePath1);
+    [$extensionFileSecond, $contentFileSecond] = getData ($filePath2);
 
-    $extensionPrev = pathinfo($filePath1, PATHINFO_EXTENSION);
-    $extensionNext = pathinfo($filePath2, PATHINFO_EXTENSION);
-
-    $before = file_get_contents($filePath1);
-    $after = file_get_contents($filePath2);
-
-    $before = parser($before, $extensionPrev);
-    $after = parser($after, $extensionNext);
+    $before = parser($contentFileFirst, $extensionFileFirst);
+    $after = parser($contentFileSecond, $extensionFileSecond);
 
     $astTree = buildAst($before, $after);
+    $diffList = formatter($format, $astTree);
 
-    switch ($format) {
-        case 'pretty':
-            return $astTree = renderPretty($astTree);
-        case 'plain':
-            return $astTree = renderPlain($astTree);
-        case 'json':
-            return $astTree = renderJson($astTree);
-        default:
-            throw new \ErrorException("Unknown fotmat $format");
-    }
+    return $diffList;
+
 }

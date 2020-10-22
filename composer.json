@@ -17,14 +17,15 @@
           "Php\\Package\\Tests\\": "tests"
         },
         "files": [
-            "src/Run.php",
+            "bin/gendiff",
             "src/GenDiff.php",
             "src/Parsers.php",
             "src/BuildAst.php",
             "src/formatters/Pretty.php",
             "src/FunctionsTrees.php/",
             "src/formatters/Plain.php",
-            "src/formatters/Json.php"
+            "src/formatters/Json.php",
+            "src/Formatter.php"
         ]
     },
     "scripts": {
@@ -39,7 +40,7 @@
         "funct/funct": "^1.5"
     },
     "require-dev": {
-            "squizlabs/php_codesniffer": "3.*",
+        "squizlabs/php_codesniffer": "3.*",
         "phpunit/phpunit": "^9.4"
         }
 }
