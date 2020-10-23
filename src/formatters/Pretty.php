@@ -2,12 +2,6 @@
 
 namespace GenDiff\Formatters\Pretty;
 
-use function GenDiff\FunctionsTrees\getName;
-use function GenDiff\FunctionsTrees\getNodeType;
-use function GenDiff\FunctionsTrees\getOldValue;
-use function GenDiff\FunctionsTrees\getNewValue;
-use function GenDiff\FunctionsTrees\getChildren;
-
 function space(int $depth): string
 {
     return str_repeat(" ", $depth * 4);
@@ -25,16 +19,13 @@ function nodeToPretty($node, $depth)
         $keys = array_keys($node);
         $editNode = array_map(
             function ($key) use ($node, $currentSpace, $depth) {
-                $type = gettype($node[$key]);
                 $name = $key;
                 $oldValue = $node[$key];
               
-                if ($type === 'array') {
+                if (is_array($node)) {
                     (int) $depth += 1;
                     $value = nodeToPretty($oldValue, $depth);
                     return "$currentSpace     $name: $value$currentSpace";
-                } else {
-                    return "$currentSpace     $name: $oldValue$currentSpace";
                 }
             },
             $keys
@@ -52,27 +43,25 @@ function treeToPretty($tree, int $depth = 0)
     $space = space($depth);
     $currentSpace = "  $space";
     $diffList = array_map(function ($node) use ($currentSpace, $depth) {
-        $name = getName($node);
-        $oldValue = nodeToPretty(getOldValue($node), $depth);
-        $newValue = nodeToPretty(getNewValue($node), $depth);
-        $type = getNodeType($node);
-        $children = getChildren($node);
 
-        switch ($type) {
+        $oldValue = nodeToPretty($node['oldValue'], $depth);
+        $newValue = nodeToPretty($node['newValue'], $depth);
+    
+        switch ($node['type']) {
             case 'added':
-                return "$currentSpace+ $name: $oldValue";
+                return "$currentSpace+ {$node['name']}: $oldValue";
             case 'deleted':
-                return "$currentSpace- $name: $oldValue";
+                return "$currentSpace- {$node['name']}: $oldValue";
             case 'unchanged':
-                return "$currentSpace  $name: $oldValue";
+                return "$currentSpace  {$node['name']}: $oldValue";
             case 'changed':
-                return "$currentSpace+ $name: $newValue\n$currentSpace- $name: $oldValue";
+                return "$currentSpace+ {$node['name']}: $newValue\n$currentSpace- {$node['name']}: $oldValue";
             case 'nested':
                 $depth += 1;
-                $children = treeToPretty($children, $depth);
-                return "$currentSpace  $name: {\n$children\n$currentSpace  }";
+                $children = treeToPretty($node['children'], $depth);
+                return "$currentSpace  {$node['name']}: {\n$children\n$currentSpace  }";
             default:
-                throw new \Exception("unknown type $type");
+                throw new \Exception("unknown type {$node['type']}");
         }
     }, $tree);
 

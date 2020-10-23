@@ -10,11 +10,11 @@ function formatter($format, $astTree)
 {
     switch ($format) {
         case 'pretty':
-            return $astTree = renderPretty($astTree);
+            return renderPretty($astTree);
         case 'plain':
-            return $astTree = renderPlain($astTree);
+            return renderPlain($astTree);
         case 'json':
-            return $astTree = renderJson($astTree);
+            return renderJson($astTree);
         default:
             throw new \ErrorException("Unknown fotmat $format");
     }

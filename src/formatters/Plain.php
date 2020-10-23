@@ -2,11 +2,6 @@
 
 namespace GenDiff\Formatters\Plain;
 
-use function GenDiff\FunctionsTrees\getName;
-use function GenDiff\FunctionsTrees\getNodeType;
-use function GenDiff\FunctionsTrees\getOldValue;
-use function GenDiff\FunctionsTrees\getNewValue;
-use function GenDiff\FunctionsTrees\getChildren;
 use function Funct\Collection\compact;
 
 function nodeToPlain($node)
@@ -23,25 +18,19 @@ function renderPlain($tree, $pathRoot = null)
 
     $diffList = array_map(function ($node) use ($pathRoot) {
           
-        $name = getName($node);
-        $oldValue = getOldValue($node);
-        $newValue = getNewValue($node);
-        $type = getNodeType($node);
-        $children = getChildren($node);
-
-        $newValue = nodeToPlain($newValue);
-        $oldValue = nodeToPlain($oldValue);
+        $newValue = nodeToPlain($node['newValue']);
+        $oldValue = nodeToPlain($node['oldValue']);
        
 
         if (isset($pathRoot)) {
             $pathParts[] = $pathRoot;
         }
 
-        $pathParts[] = $name;
+        $pathParts[] = $node['name'];
         $path = implode('.', $pathParts);
 
             
-        switch ($type) {
+        switch ($node['type']) {
             case 'added':
                 return "Property '$path' was added with value: '$oldValue'";
             case 'deleted':
@@ -49,11 +38,11 @@ function renderPlain($tree, $pathRoot = null)
             case 'changed':
                 return "Property '$path' was updated. From '$oldValue' to '$newValue'";
             case 'nested':
-                return renderPlain($children, $name);
+                return renderPlain($node['children'], $node['name']);
             case 'unchanged':
                 return ;
             default:
-                throw new \ErrorException("Unknown type $type");
+                throw new \ErrorException("Unknown type {$node['type']}");
         }
     }, $tree);
     $diffListClear = compact($diffList);

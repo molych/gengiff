@@ -3,7 +3,17 @@
 namespace GenDiff\BuildAst;
 
 use function Funct\Collection\union;
-use function GenDiff\FunctionsTrees\createNode;
+
+function createNode($name, $type, $oldValue, $newValue, $children)
+{
+    return [
+        'name' => $name,
+        'type' => $type,
+        'oldValue' => $oldValue,
+        'newValue' => $newValue,
+        'children' => $children
+    ];
+}
 
 function buildAst($firstFile, $secondFile)
 {
