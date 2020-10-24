@@ -15,25 +15,22 @@ function createNode($name, $type, $oldValue, $newValue, $children)
     ];
 }
 
-function buildAst($firstFile, $secondFile)
+function buildAst($parseredContentFileFirst, $parseredContentFileSecond)
 {
-
-    $keys = union(array_keys($firstFile), array_keys($secondFile));
+    $keys = union(array_keys($parseredContentFileFirst), array_keys($parseredContentFileSecond));
     sort($keys);
-   
-    $astTree = array_map(function ($key) use ($firstFile, $secondFile) {
-        
-        if (!isset($firstFile[$key])) {
-            return createNode($key, 'added', $secondFile[$key], null, null);
-        } elseif (!isset($secondFile[$key])) {
-            return createNode($key, 'deleted', $firstFile[$key], null, null);
-        } elseif (is_array($firstFile[$key]) && is_array($secondFile[$key])) {
-            $children = buildAst($firstFile[$key], $secondFile[$key]);
+    $astTree = array_map(function ($key) use ($parseredContentFileFirst, $parseredContentFileSecond) {
+        if (!isset($parseredContentFileFirst[$key])) {
+            return createNode($key, 'added', $parseredContentFileSecond[$key], null, null);
+        } elseif (!isset($parseredContentFileSecond[$key])) {
+            return createNode($key, 'deleted', $parseredContentFileFirst[$key], null, null);
+        } elseif (is_array($parseredContentFileFirst[$key]) && is_array($parseredContentFileSecond[$key])) {
+            $children = buildAst($parseredContentFileFirst[$key], $parseredContentFileSecond[$key]);
             return createNode($key, 'nested', null, null, $children);
-        } elseif ($firstFile[$key] === $secondFile[$key]) {
-            return createNode($key, 'unchanged', $firstFile[$key], null, null);
+        } elseif ($parseredContentFileFirst[$key] === $parseredContentFileSecond[$key]) {
+            return createNode($key, 'unchanged', $parseredContentFileFirst[$key], null, null);
         } else {
-            return createNode($key, 'changed', $firstFile[$key], $secondFile[$key], null);
+            return createNode($key, 'changed', $parseredContentFileFirst[$key], $parseredContentFileSecond[$key], null);
         }
     }, $keys);
     return $astTree;

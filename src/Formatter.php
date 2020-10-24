@@ -16,6 +16,6 @@ function formatter($format, $astTree)
         case 'json':
             return renderJson($astTree);
         default:
-            throw new \ErrorException("Unknown fotmat $format");
+            throw new \Exception("Unknown fotmat $format");
     }
 }

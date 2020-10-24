@@ -6,7 +6,6 @@ use Symfony\Component\Yaml\Yaml;
 
 function parser($data, $extension)
 {
-
     switch ($extension) {
         case 'json':
             return  json_decode($data, true);

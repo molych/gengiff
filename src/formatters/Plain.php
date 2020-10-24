@@ -12,24 +12,16 @@ function nodeToPlain($node)
     return (is_array($node)) ? '[complex value]' : $node;
 }
 
-
 function renderPlain($tree, $pathRoot = null)
 {
-
     $diffList = array_map(function ($node) use ($pathRoot) {
-          
         $newValue = nodeToPlain($node['newValue']);
         $oldValue = nodeToPlain($node['oldValue']);
-       
-
         if (isset($pathRoot)) {
             $pathParts[] = $pathRoot;
         }
-
         $pathParts[] = $node['name'];
         $path = implode('.', $pathParts);
-
-            
         switch ($node['type']) {
             case 'added':
                 return "Property '$path' was added with value: '$oldValue'";
@@ -42,10 +34,9 @@ function renderPlain($tree, $pathRoot = null)
             case 'unchanged':
                 return ;
             default:
-                throw new \ErrorException("Unknown type {$node['type']}");
+                throw new \Exception("Unknown type {$node['type']}");
         }
     }, $tree);
-    $diffListClear = compact($diffList);
-    $result = implode("\n", $diffListClear);
-    return $result;
+    $diffList = compact($diffList);
+    return  implode("\n", $diffList);
 }

@@ -8,7 +8,6 @@ use function GenDiff\GenDiff\genDiff;
 
 class GenDiffTest extends TestCase
 {
-
     /**
      * @dataProvider additionProvider
      */

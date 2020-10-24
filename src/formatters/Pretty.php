@@ -2,7 +2,7 @@
 
 namespace GenDiff\Formatters\Pretty;
 
-function space(int $depth): string
+function space($depth)
 {
     return str_repeat(" ", $depth * 4);
 }
@@ -12,7 +12,6 @@ function nodeToPretty($node, $depth)
     if (is_bool($node)) {
         return var_export($node, true);
     }
-
     $space = space($depth);
     $currentSpace = "  $space";
     if (is_array($node)) {
@@ -21,9 +20,8 @@ function nodeToPretty($node, $depth)
             function ($key) use ($node, $currentSpace, $depth) {
                 $name = $key;
                 $oldValue = $node[$key];
-              
                 if (is_array($node)) {
-                    (int) $depth += 1;
+                    $depth += 1;
                     $value = nodeToPretty($oldValue, $depth);
                     return "$currentSpace     $name: $value$currentSpace";
                 }
@@ -36,17 +34,13 @@ function nodeToPretty($node, $depth)
     return $node;
 }
 
-
-function treeToPretty($tree, int $depth = 0)
+function treeToPretty($astTree, $depth = 0)
 {
-
     $space = space($depth);
     $currentSpace = "  $space";
     $diffList = array_map(function ($node) use ($currentSpace, $depth) {
-
         $oldValue = nodeToPretty($node['oldValue'], $depth);
         $newValue = nodeToPretty($node['newValue'], $depth);
-    
         switch ($node['type']) {
             case 'added':
                 return "$currentSpace+ {$node['name']}: $oldValue";
@@ -63,15 +57,12 @@ function treeToPretty($tree, int $depth = 0)
             default:
                 throw new \Exception("unknown type {$node['type']}");
         }
-    }, $tree);
-
-    $result = implode("\n", $diffList);
-    return $result;
+    }, $astTree);
+    return implode("\n", $diffList);
 }
 
-
-function renderPretty($tree)
+function renderPretty($astTree)
 {
-    $tree =  treeToPretty($tree);
-    return  "{\n{$tree}\n}";
+    $diffList = treeToPretty($astTree);
+    return  "{\n{$diffList}\n}";
 }

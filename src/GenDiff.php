@@ -6,30 +6,23 @@ use function GenDiff\Parsers\parser;
 use function GenDiff\BuildAst\buildAst;
 use function Gendiff\Formatter\formatter;
 
-function getData($file)
+function getData($path)
 {
-    if (!file_exists($file)) {
-        throw new \Exception("$file does not exist");
+    if (!file_exists($path)) {
+        throw new \Exception("$path does not exist");
     }
-
-    $content = file_get_contents($file);
-    $extension = pathinfo($file, PATHINFO_EXTENSION);
-    
+    $content = file_get_contents($path);
+    $extension = pathinfo($path, PATHINFO_EXTENSION);
     return [$extension, $content];
 }
 
-function genDiff($filePath1, $filePath2, $format = 'pretty')
+function genDiff($pathFileFirst, $pathFileSecond, $format = 'pretty')
 {
-   
-    [$extensionFileFirst, $contentFileFirst] = getData($filePath1);
-    [$extensionFileSecond, $contentFileSecond] = getData($filePath2);
-
-    $before = parser($contentFileFirst, $extensionFileFirst);
-    $after = parser($contentFileSecond, $extensionFileSecond);
-
-    $astTree = buildAst($before, $after);
-    
+    [$extensionFileFirst, $contentFileFirst] = getData($pathFileFirst);
+    [$extensionFileSecond, $contentFileSecond] = getData($pathFileSecond);
+    $parseredContentFileFirst = parser($contentFileFirst, $extensionFileFirst);
+    $parseredContentFileSecond = parser($contentFileSecond, $extensionFileSecond);
+    $astTree = buildAst($parseredContentFileFirst, $parseredContentFileSecond);
     $diffList = formatter($format, $astTree);
-
     return $diffList;
 }
