@@ -9,7 +9,7 @@ function nodeToPlain($node)
     if (is_bool($node)) {
         return var_export($node, true);
     }
-    return (is_array($node)) ? '[complex value]' : $node;
+    return is_array($node) ? '[complex value]' : $node;
 }
 
 function renderPlain($tree, $pathRoot = null)
