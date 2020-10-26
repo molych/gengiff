@@ -55,7 +55,7 @@ function treeToPretty($astTree, $depth = 0)
                 $children = treeToPretty($node['children'], $depth);
                 return "$currentSpace  {$node['name']}: {\n$children\n$currentSpace  }";
             default:
-                throw new \Exception("unknown type {$node['type']}");
+                throw new \Exception("Unknown type {$node['type']}");
         }
     }, $astTree);
     return implode("\n", $diffList);
