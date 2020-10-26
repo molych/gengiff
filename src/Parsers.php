@@ -13,6 +13,6 @@ function parser($data, $extension)
         case 'yml':
             return Yaml::parse($data);
         default:
-            throw new \Exception("unknown type $extension");
+            throw new \Exception("Unknown type $extension");
     }
 }
