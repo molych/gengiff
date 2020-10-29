@@ -18,11 +18,11 @@ function getData($path)
 
 function genDiff($firstFilesPath, $secondFilesPath, $format = 'pretty')
 {
-    [$firstFilesExtention, $firstFilesContent] = getData($firstFilesPath);
-    [$secondFilesExtention, $secondFilesContent] = getData($secondFilesPath);
-    $parsedFirstFilesContent = parser($firstFilesContent, $firstFilesExtention);
-    $parsedSecondFileContent = parser($secondFilesContent, $secondFilesExtention);
-    $astTree = buildAst($parsedFirstFilesContent, $parsedSecondFileContent);
+    [$firstFileExtention, $firstFileData] = getData($firstFilesPath);
+    [$secondFileExtention, $secondFileData] = getData($secondFilesPath);
+    $firstData = parser($firstFileData, $firstFileExtention);
+    $secondData = parser($secondFileData, $secondFileExtention);
+    $astTree = buildAst($firstData, $secondData);
     $diffList = format($format, $astTree);
     return $diffList;
 }
