@@ -4,7 +4,7 @@ namespace GenDiff\GenDiff;
 
 use function GenDiff\Parsers\parser;
 use function GenDiff\BuildAst\buildAst;
-use function Gendiff\Formatter\formatter;
+use function Gendiff\Formatter\format;
 
 function getData($path)
 {
@@ -16,13 +16,13 @@ function getData($path)
     return [$extension, $content];
 }
 
-function genDiff($pathFileFirst, $pathFileSecond, $format = 'pretty')
+function genDiff($firstFilesPath, $secondFilesPath, $format = 'pretty')
 {
-    [$extensionFileFirst, $contentFileFirst] = getData($pathFileFirst);
-    [$extensionFileSecond, $contentFileSecond] = getData($pathFileSecond);
-    $parseredContentFileFirst = parser($contentFileFirst, $extensionFileFirst);
-    $parseredContentFileSecond = parser($contentFileSecond, $extensionFileSecond);
-    $astTree = buildAst($parseredContentFileFirst, $parseredContentFileSecond);
-    $diffList = formatter($format, $astTree);
+    [$firstFilesExtention, $firstFilesContent] = getData($firstFilesPath);
+    [$secondFilesExtention, $secondFilesContent] = getData($secondFilesPath);
+    $parsedFirstFilesContent = parser($firstFilesContent, $firstFilesExtention);
+    $parsedSecondFileContent = parser($secondFilesContent, $secondFilesExtention);
+    $astTree = buildAst($parsedFirstFilesContent, $parsedSecondFileContent);
+    $diffList = format($format, $astTree);
     return $diffList;
 }

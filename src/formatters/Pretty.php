@@ -12,26 +12,26 @@ function nodeToPretty($node, $depth)
     if (is_bool($node)) {
         return var_export($node, true);
     }
+    if (!is_array($node)) {
+        return $node;
+    }
     $space = space($depth);
     $currentSpace = "  $space";
-    if (is_array($node)) {
-        $keys = array_keys($node);
-        $editNode = array_map(
-            function ($key) use ($node, $currentSpace, $depth) {
-                $name = $key;
-                $oldValue = $node[$key];
-                if (is_array($node)) {
-                    $depth += 1;
-                    $value = nodeToPretty($oldValue, $depth);
-                    return "$currentSpace     $name: $value$currentSpace";
-                }
-            },
-            $keys
-        );
+    $keys = array_keys($node);
+    $editNode = array_map(
+        function ($key) use ($node, $currentSpace, $depth) {
+            $name = $key;
+            $oldValue = $node[$key];
+            if (is_array($node)) {
+                $depth += 1;
+                $value = nodeToPretty($oldValue, $depth);
+                return "$currentSpace     $name: $value$currentSpace";
+            }
+        },
+        $keys
+    );
         $result = implode("\n", $editNode);
         return "{\n{$result}\n$currentSpace  }";
-    }
-    return $node;
 }
 
 function treeToPretty($astTree, $depth = 0)

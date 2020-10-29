@@ -6,7 +6,7 @@ use function GenDiff\Formatters\Pretty\renderPretty;
 use function GenDiff\Formatters\Plain\renderPlain;
 use function GenDiff\Formatters\Json\renderJson;
 
-function formatter($format, $astTree)
+function format($format, $astTree)
 {
     switch ($format) {
         case 'pretty':
