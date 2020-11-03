@@ -12,6 +12,11 @@ function nodeToPretty($node, $depth)
     if (is_bool($node)) {
         return var_export($node, true);
     }
+
+    if ($node === null) {
+        return 'null';
+    }
+
     if (!is_array($node)) {
         return $node;
     }
@@ -25,7 +30,7 @@ function nodeToPretty($node, $depth)
             if (is_array($node)) {
                 $depth += 1;
                 $value = nodeToPretty($oldValue, $depth);
-                return "$currentSpace     $name: $value$currentSpace";
+                return "$currentSpace      $name: $value";
             }
         },
         $keys
@@ -49,7 +54,7 @@ function treeToPretty($astTree, $depth = 0)
             case 'unchanged':
                 return "$currentSpace  {$node['name']}: $oldValue";
             case 'changed':
-                return "$currentSpace+ {$node['name']}: $newValue\n$currentSpace- {$node['name']}: $oldValue";
+                return "$currentSpace- {$node['name']}: $oldValue\n$currentSpace+ {$node['name']}: $newValue";
             case 'nested':
                 $depth += 1;
                 $children = treeToPretty($node['children'], $depth);
