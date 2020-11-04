@@ -16,7 +16,6 @@ Usage:
   
 Options:
   -h --help                     Show this screen
-  -v --version                  Show version
   --format <fmt>                Report format [default: stylish]
   ```
 
