@@ -4,7 +4,8 @@ namespace GenDiff\Formatters\Pretty;
 
 function space($depth)
 {
-    return str_repeat(" ", $depth * 4);
+    $space = str_repeat(" ", $depth * 4);
+    return "  $space";
 }
 
 function nodeToPretty($node, $depth)
@@ -21,44 +22,42 @@ function nodeToPretty($node, $depth)
         return $node;
     }
     $space = space($depth);
-    $currentSpace = "  $space";
     $keys = array_keys($node);
     $editNode = array_map(
-        function ($key) use ($node, $currentSpace, $depth) {
+        function ($key) use ($node, $space, $depth) {
             $name = $key;
             $oldValue = $node[$key];
             if (is_array($node)) {
                 $depth += 1;
                 $value = nodeToPretty($oldValue, $depth);
-                return "$currentSpace      $name: $value";
+                return "$space      $name: $value";
             }
         },
         $keys
     );
         $result = implode("\n", $editNode);
-        return "{\n{$result}\n$currentSpace  }";
+        return "{\n{$result}\n$space  }";
 }
 
 function treeToPretty($astTree, $depth = 0)
 {
     $space = space($depth);
-    $currentSpace = "  $space";
-    $diffList = array_map(function ($node) use ($currentSpace, $depth) {
+    $diffList = array_map(function ($node) use ($space, $depth) {
         $oldValue = nodeToPretty($node['oldValue'], $depth);
         $newValue = nodeToPretty($node['newValue'], $depth);
         switch ($node['type']) {
             case 'added':
-                return "$currentSpace+ {$node['name']}: $oldValue";
+                return "$space+ {$node['name']}: $oldValue";
             case 'deleted':
-                return "$currentSpace- {$node['name']}: $oldValue";
+                return "$space- {$node['name']}: $oldValue";
             case 'unchanged':
-                return "$currentSpace  {$node['name']}: $oldValue";
+                return "$space  {$node['name']}: $oldValue";
             case 'changed':
-                return "$currentSpace- {$node['name']}: $oldValue\n$currentSpace+ {$node['name']}: $newValue";
+                return "$space- {$node['name']}: $oldValue\n$space+ {$node['name']}: $newValue";
             case 'nested':
                 $depth += 1;
                 $children = treeToPretty($node['children'], $depth);
-                return "$currentSpace  {$node['name']}: {\n$children\n$currentSpace  }";
+                return "$space  {$node['name']}: {\n$children\n$space  }";
             default:
                 throw new \Exception("Unknown type {$node['type']}");
         }

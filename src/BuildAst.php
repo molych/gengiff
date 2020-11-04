@@ -3,6 +3,7 @@
 namespace GenDiff\BuildAst;
 
 use function Funct\Collection\union;
+use function Funct\Collection\sortBy;
 
 function createNode($name, $type, $oldValue, $newValue, $children)
 {
@@ -18,7 +19,7 @@ function createNode($name, $type, $oldValue, $newValue, $children)
 function buildAst($firstData, $secondData)
 {
     $keys = union(array_keys($firstData), array_keys($secondData));
-    sort($keys);
+    $sortedKeys = sortBy($keys, function ($key) { return $key; });
     $astTree = array_map(function ($key) use ($firstData, $secondData) {
         if (!array_key_exists($key, $firstData)) {
             return createNode($key, 'added', $secondData[$key], null, null);
@@ -32,6 +33,6 @@ function buildAst($firstData, $secondData)
         } else {
             return createNode($key, 'changed', $firstData[$key], $secondData[$key], null);
         }
-    }, $keys);
+    }, $sortedKeys);
     return $astTree;
 }
