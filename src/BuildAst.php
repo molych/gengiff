@@ -19,7 +19,9 @@ function createNode($name, $type, $oldValue, $newValue, $children)
 function buildAst($firstData, $secondData)
 {
     $keys = union(array_keys($firstData), array_keys($secondData));
-    $sortedKeys = sortBy($keys, function ($key) { return $key; });
+    $sortedKeys = sortBy($keys, function ($key) {
+        return $key;
+    });
     $astTree = array_map(function ($key) use ($firstData, $secondData) {
         if (!array_key_exists($key, $firstData)) {
             return createNode($key, 'added', $secondData[$key], null, null);

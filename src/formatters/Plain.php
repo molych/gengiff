@@ -9,7 +9,12 @@ function nodeToPlain($node)
     if (is_bool($node)) {
         return var_export($node, true);
     }
-    return is_array($node) ? '[complex value]' : $node;
+
+    if ($node === null) {
+        return 'null';
+    }
+
+    return is_array($node) ? '[complex value]' : "'$node'";
 }
 
 function renderPlain($tree, $pathRoot = null)
@@ -24,13 +29,13 @@ function renderPlain($tree, $pathRoot = null)
         $path = implode('.', $pathParts);
         switch ($node['type']) {
             case 'added':
-                return "Property '$path' was added with value: '$oldValue'";
+                return "Property '$path' was added with value: $oldValue";
             case 'deleted':
                 return "Property '$path' was removed";
             case 'changed':
-                return "Property '$path' was updated. From '$oldValue' to '$newValue'";
+                return "Property '$path' was updated. From $oldValue to $newValue";
             case 'nested':
-                return renderPlain($node['children'], $node['name']);
+                return renderPlain($node['children'], $path);
             case 'unchanged':
                 return ;
             default:
