@@ -33,8 +33,8 @@ Comparison of flat files (JSON)
 
 Comparison of deep files (Pretty format)
 
-<a href="https://asciinema.org/a/365089"><img src="https://asciinema.org/a/365089.png" width="320"/></a><br>
+<a href="https://asciinema.org/a/370316"><img src="https://asciinema.org/a/370316.png" width="320"/></a><br>
 
 Comparison of deep files (Plain format)
 
-<a href="https://asciinema.org/a/365092"><img src="https://asciinema.org/a/365092.png" width="320"/></a><br>
+<a href="https://asciinema.org/a/370318"><img src="https://asciinema.org/a/370318.png" width="320"/></a><br>
