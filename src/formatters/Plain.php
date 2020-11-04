@@ -13,8 +13,8 @@ function nodeToPlain($node)
     if ($node === null) {
         return 'null';
     }
-
-    return is_array($node) ? '[complex value]' : "'$node'";
+    
+    return is_object($node) ? '[complex value]' : "'$node'";
 }
 
 function renderPlain($tree, $pathRoot = null)

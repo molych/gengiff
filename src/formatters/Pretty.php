@@ -18,16 +18,16 @@ function nodeToPretty($node, $depth)
         return 'null';
     }
 
-    if (!is_array($node)) {
+    if (!is_object($node)) {
         return $node;
     }
     $space = space($depth);
-    $keys = array_keys($node);
+    $keys = array_keys(get_object_vars($node));
     $editNode = array_map(
         function ($key) use ($node, $space, $depth) {
             $name = $key;
-            $oldValue = $node[$key];
-            if (is_array($node)) {
+            $oldValue = $node->$key;
+            if (is_object($node)) {
                 $depth += 1;
                 $value = nodeToPretty($oldValue, $depth);
                 return "$space      $name: $value";
@@ -41,6 +41,7 @@ function nodeToPretty($node, $depth)
 
 function treeToPretty($astTree, $depth = 0)
 {
+  
     $space = space($depth);
     $diffList = array_map(function ($node) use ($space, $depth) {
         $oldValue = nodeToPretty($node['oldValue'], $depth);

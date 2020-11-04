@@ -18,22 +18,22 @@ function createNode($name, $type, $oldValue, $newValue, $children)
 
 function buildAst($firstData, $secondData)
 {
-    $keys = union(array_keys($firstData), array_keys($secondData));
+    $keys = union(array_keys(get_object_vars($firstData)), array_keys(get_object_vars($secondData)));
     $sortedKeys = sortBy($keys, function ($key) {
         return $key;
     });
     $astTree = array_map(function ($key) use ($firstData, $secondData) {
-        if (!array_key_exists($key, $firstData)) {
-            return createNode($key, 'added', $secondData[$key], null, null);
-        } elseif (!array_key_exists($key, $secondData)) {
-            return createNode($key, 'deleted', $firstData[$key], null, null);
-        } elseif (is_array($firstData[$key]) && is_array($secondData[$key])) {
-            $children = buildAst($firstData[$key], $secondData[$key]);
+        if (!property_exists($firstData, $key)) {
+            return createNode($key, 'added', $secondData->$key, null, null);
+        } elseif (!property_exists($secondData, $key)) {
+            return createNode($key, 'deleted', $firstData->$key, null, null);
+        } elseif (is_object($firstData->$key) && is_object($secondData->$key)) {
+            $children = buildAst($firstData->$key, $secondData->$key);
             return createNode($key, 'nested', null, null, $children);
-        } elseif ($firstData[$key] === $secondData[$key]) {
-            return createNode($key, 'unchanged', $firstData[$key], null, null);
+        } elseif ($firstData->$key === $secondData->$key) {
+            return createNode($key, 'unchanged', $firstData->$key, null, null);
         } else {
-            return createNode($key, 'changed', $firstData[$key], $secondData[$key], null);
+            return createNode($key, 'changed', $firstData->$key, $secondData->$key, null);
         }
     }, $sortedKeys);
     return $astTree;
