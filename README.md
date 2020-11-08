@@ -21,7 +21,7 @@ Options:
 ### install
 
 ```
-composer global require sasha/php-project-lvl2
+composer global require molych/gendiff
 ```
 
 
