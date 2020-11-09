@@ -39,9 +39,8 @@ function nodeToPretty($node, $depth)
         return "{\n{$result}\n$space  }";
 }
 
-function treeToPretty($astTree, $depth = 0)
+function iter($astTree, $depth)
 {
-  
     $space = space($depth);
     $diffList = array_map(function ($node) use ($space, $depth) {
         $oldValue = nodeToPretty($node['oldValue'], $depth);
@@ -56,14 +55,19 @@ function treeToPretty($astTree, $depth = 0)
             case 'changed':
                 return "$space- {$node['name']}: $oldValue\n$space+ {$node['name']}: $newValue";
             case 'nested':
-                $depth += 1;
-                $children = treeToPretty($node['children'], $depth);
+                $depth = $depth + 1;
+                $children = iter($node['children'], $depth);
                 return "$space  {$node['name']}: {\n$children\n$space  }";
             default:
                 throw new \Exception("Unknown type {$node['type']}");
         }
     }, $astTree);
     return implode("\n", $diffList);
+}
+
+function treeToPretty($astrTree)
+{
+    return iter($astrTree, 0);
 }
 
 function renderPretty($astTree)
