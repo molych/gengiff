@@ -28,8 +28,7 @@ function nodeToPretty($node, $depth)
             $name = $key;
             $oldValue = $node->$key;
             if (is_object($node)) {
-                $depth += 1;
-                $value = nodeToPretty($oldValue, $depth);
+                $value = nodeToPretty($oldValue, $depth + 1);
                 return "$space      $name: $value";
             }
         },
@@ -55,8 +54,7 @@ function iter($astTree, $depth)
             case 'changed':
                 return "$space- {$node['name']}: $oldValue\n$space+ {$node['name']}: $newValue";
             case 'nested':
-                $depth = $depth + 1;
-                $children = iter($node['children'], $depth);
+                $children = iter($node['children'], $depth + 1);
                 return "$space  {$node['name']}: {\n$children\n$space  }";
             default:
                 throw new \Exception("Unknown type {$node['type']}");
